@@ -348,9 +348,15 @@ kube_ps1() {
     KUBE_PS1+="${KUBE_PS1_SEPARATOR}"
   fi
 
-  # Context
+ # Context
+  blink=''
+  if [[ $KUBE_PS1_CONTEXT =~ 'production' ]]
+  then
+    blink=$(tput blink)
+  fi
+
   if [[ "${KUBE_PS1_CONTEXT_ENABLE}" == true ]]; then
-    KUBE_PS1+="$(_kube_ps1_color_fg $KUBE_PS1_CTX_COLOR)${KUBE_PS1_CONTEXT}${KUBE_PS1_RESET_COLOR}"
+    KUBE_PS1+="${blink}$(_kube_ps1_color_fg $KUBE_PS1_CTX_COLOR)${KUBE_PS1_CONTEXT}$(tput sgr0)${KUBE_PS1_RESET_COLOR}"
   fi
 
   # Namespace
